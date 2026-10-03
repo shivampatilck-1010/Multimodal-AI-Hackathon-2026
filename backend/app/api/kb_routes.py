@@ -271,6 +271,44 @@ async def get_course_hierarchy(course_id: str):
     }
 
 
+@router.get("/courses/{course_id}/flowchart")
+async def get_course_flowchart(course_id: str):
+    """Generate a visual course flow map of topics and prerequisites in Mermaid syntax (Track D 6.a)."""
+    from app.main import graph_store
+
+    if not graph_store:
+        raise HTTPException(status_code=503, detail="Graph store not ready")
+
+    graph = graph_store.get_graph(course_id)
+    if not graph:
+        return {"course_id": course_id, "mermaid": "graph TD;\n  EmptyCourse[No concepts loaded];"}
+
+    lines = ["graph TD;"]
+    # Group concepts into topic subgraphs
+    topics: dict[str, list[str]] = {}
+    for node in graph.nodes.values():
+        topics.setdefault(node.topic, []).append(node.id)
+
+    for topic_name, concept_ids in topics.items():
+        subgraph_id = "sub_" + "".join(c for c in topic_name if c.isalnum())
+        lines.append(f'  subgraph {subgraph_id}["{topic_name}"]')
+        for cid in concept_ids:
+            node = graph.nodes[cid]
+            clean_name = node.name.replace('"', "'")
+            lines.append(f'    {cid}["{clean_name}"]')
+        lines.append("  end")
+
+    # Add prerequisite arrows
+    for edge in graph.edges:
+        if edge.relation_type == "prerequisite_of":
+            lines.append(f"  {edge.source_concept_id} --> {edge.target_concept_id}")
+
+    return {
+        "course_id": course_id,
+        "mermaid": "\n".join(lines),
+    }
+
+
 # ------------------------------------------------------------- 6. Administration
 @router.delete("/clear")
 async def clear_kb():

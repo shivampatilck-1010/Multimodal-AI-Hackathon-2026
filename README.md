@@ -68,7 +68,7 @@ GEMINI_API_KEY=your_gemini_api_key_here
 
 ### Seeding Multimodal Course Materials
 
-To populate the Knowledge Base with sample textbook PDFs, slide decks, and video lecture segments:
+The server automatically auto-seeds `backend/data/sample_course.json` on startup when the Knowledge Base is empty. You can also re-seed or seed custom multimodal datasets anytime:
 ```powershell
 cd backend
 $env:PYTHONPATH="."
@@ -77,6 +77,23 @@ python scripts/seed_multimodal.py
 
 ### Running the Frontend
 *Frontend setup commands are NOT YET IMPLEMENTED.*
+
+## Key API Endpoints
+
+Interactive Swagger documentation is available at `http://localhost:8000/docs`.
+
+| Endpoint | Method | Consumer | Description |
+| :--- | :--- | :--- | :--- |
+| `/api/kb/upload` | `POST` | Member 1/All | Ingest raw PDF, PPTX, or Video/Audio with diagram understanding and DAG generation. |
+| `/api/kb/search` | `GET` | Member 2 | Vector search with optional `topic` and `concept` filters. |
+| `/api/kb/courses/{course_id}/concepts` | `GET` | Member 3 | List all identified concepts for question scoping. |
+| `/api/kb/courses/{course_id}/concepts/{concept_id}/evidence` | `GET` | Member 3 | Fetch concept definition, text chunks, and diagrams for grounded question generation. |
+| `/api/kb/figures/{course_id}/{figure_id}` | `GET` | Member 3 | Figure metadata, coordinate bounding boxes, and multimodal explanation. |
+| `/api/kb/figures/{course_id}/{figure_id}/image` | `GET` | UI / Member 3 | Stream raw diagram image crop for assessment questions. |
+| `/api/kb/courses/{course_id}/prerequisites` | `GET` | Member 4 | Full concept prerequisite DAG (verified acyclic) for student mastery tracking. |
+| `/api/kb/courses/{course_id}/learning_path` | `GET` | Member 4 | Topological sort ordering of concepts (prerequisites first). |
+| `/api/kb/courses/{course_id}/flowchart` | `GET` | UI / All | Visual course flow map in Mermaid syntax (Track D 6.a). |
+| `/api/tutor/ask` | `POST` | Member 2 / UI | Ask tutor questions with strict evidence-gating and verified citations. |
 
 ## Testing
 

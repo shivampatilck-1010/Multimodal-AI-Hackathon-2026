@@ -15,6 +15,7 @@ from app.tutor.vector_store import InMemoryVectorStore
 from app.tutor.providers import build_llm_provider, build_embedding_provider
 from app.tutor.service import TutorService
 
+from app.tutor.models import ContentUnit
 from app.kb.media_store import MediaStore
 from app.kb.graph_store import GraphStore
 from app.ingestion.pipeline import IngestionPipeline
@@ -60,6 +61,26 @@ async def lifespan(app: FastAPI):
     
     # Initialize Service
     tutor_service = TutorService(llm, kb)
+    
+    # Auto-seed sample multimodal course if KB is empty
+    if settings.seed_on_startup and settings.seed_file and settings.seed_file.exists():
+        if sum(kb.courses().values()) == 0:
+            try:
+                import json
+                data = json.loads(settings.seed_file.read_text(encoding="utf-8"))
+                units = [ContentUnit.model_validate(u) for u in data]
+                kb.add_units(units)
+                logger.info(f"Auto-seeded Knowledge Base with {len(units)} units from {settings.seed_file.name}")
+                
+                # Tag concepts & build knowledge graph for seeded course
+                cid = units[0].course_id
+                if not graph_store.get_graph(cid):
+                    tagged, nodes, hierarchy = ingestion_pipeline.concept_extractor.extract_taxonomy(cid, units)
+                    graph = ingestion_pipeline.graph_builder.build_graph(cid, nodes, hierarchy)
+                    graph_store.save_graph(graph)
+                    logger.info(f"Built prerequisite graph for course '{cid}' with {len(nodes)} concepts")
+            except Exception as e:
+                logger.warning(f"Failed to auto-seed KB from {settings.seed_file}: {e}")
     
     yield
     

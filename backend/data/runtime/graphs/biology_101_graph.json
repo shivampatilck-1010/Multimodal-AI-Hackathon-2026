@@ -1,0 +1,48 @@
+{
+  "course_id": "biology_101",
+  "nodes": {
+    "concept_photosystems_i_ii_architecture": {
+      "id": "concept_photosystems_i_ii_architecture",
+      "course_id": "biology_101",
+      "name": "Photosystems I & II Architecture",
+      "topic": "Photosystems I & II Architecture",
+      "subtopic": "Key Concepts",
+      "summary": "Foundational understanding of Photosystems I & II Architecture.",
+      "content_unit_ids": [
+        "unit_lecture_slides_s05"
+      ],
+      "figure_ids": [],
+      "metadata": {}
+    },
+    "concept_chemiosmosis_in_chloroplasts_vs_mitochondria": {
+      "id": "concept_chemiosmosis_in_chloroplasts_vs_mitochondria",
+      "course_id": "biology_101",
+      "name": "Chemiosmosis in Chloroplasts vs Mitochondria",
+      "topic": "Photosystems I & II Architecture",
+      "subtopic": "Key Concepts",
+      "summary": "Foundational understanding of Chemiosmosis in Chloroplasts vs Mitochondria.",
+      "content_unit_ids": [
+        "unit_lecture_slides_s08"
+      ],
+      "figure_ids": [],
+      "metadata": {}
+    }
+  },
+  "edges": [
+    {
+      "source_concept_id": "concept_photosystems_i_ii_architecture",
+      "target_concept_id": "concept_chemiosmosis_in_chloroplasts_vs_mitochondria",
+      "relation_type": "prerequisite_of",
+      "rationale": "Foundational concepts in 'Photosystems I & II Architecture: Photosystems I & II Architecture' precede 'Photosystems I & II Architecture: Chemiosmosis in Chloroplasts vs Mitochondria'.",
+      "strength": 0.8
+    }
+  ],
+  "topics_hierarchy": {
+    "Photosystems I & II Architecture": {
+      "Key Concepts": [
+        "concept_photosystems_i_ii_architecture",
+        "concept_chemiosmosis_in_chloroplasts_vs_mitochondria"
+      ]
+    }
+  }
+}

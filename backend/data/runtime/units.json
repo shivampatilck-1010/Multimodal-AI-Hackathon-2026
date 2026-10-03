@@ -1,0 +1,139 @@
+[
+ {
+  "id": "unit_campbell_bio_p182_01",
+  "course_id": "biology_101",
+  "text": "Photosynthesis converts light energy to the chemical energy of food. In autotrophic eukaryotes, photosynthesis occurs inside chloroplasts. The chloroplast has two membranes surrounding a dense fluid called the stroma. Suspended within the stroma is a third membrane system made up of sacs called thylakoids, which segregate the stroma from the thylakoid space inside these sacs. Chlorophyll resides in the thylakoid membranes.",
+  "topic": "Photosynthesis",
+  "subtopic": "Chloroplast Structure",
+  "concept": "Chloroplast Anatomy",
+  "source": {
+   "file_name": "Campbell_Biology_Ch10.pdf",
+   "file_id": null,
+   "type": "pdf",
+   "page": 182
+  },
+  "metadata": {
+   "figure_ids": [
+    "fig_chloroplast_diagram_p182"
+   ]
+  }
+ },
+ {
+  "id": "unit_campbell_bio_p184_01",
+  "course_id": "biology_101",
+  "text": "The two stages of photosynthesis are the Light Reactions and the Calvin Cycle. The light reactions convert solar energy to chemical energy. Water is split, providing a source of electrons and protons (H+) and giving off O2 as a by-product. Light absorbed by chlorophyll drives a transfer of electrons and hydrogen ions from water to an acceptor called NADP+, where they are temporarily stored. The light reactions use solar energy to reduce NADP+ to NADPH by adding a pair of electrons.",
+  "topic": "Photosynthesis",
+  "subtopic": "Light Reactions",
+  "concept": "Light-Dependent Reactions",
+  "source": {
+   "file_name": "Campbell_Biology_Ch10.pdf",
+   "file_id": null,
+   "type": "pdf",
+   "page": 184
+  },
+  "metadata": {
+   "figure_ids": [
+    "fig_z_scheme_p184"
+   ]
+  }
+ },
+ {
+  "id": "unit_campbell_bio_p189_01",
+  "course_id": "biology_101",
+  "text": "The Calvin cycle uses the chemical energy of ATP and NADPH to reduce CO2 to sugar. The cycle begins by incorporating CO2 from the air into organic molecules already present in the chloroplast. This initial incorporation of carbon into organic compounds is known as carbon fixation. The carbohydrate produced directly from the Calvin cycle is not glucose, but the three-carbon sugar glyceraldehyde 3-phosphate (G3P).",
+  "topic": "Photosynthesis",
+  "subtopic": "Calvin Cycle",
+  "concept": "Carbon Fixation",
+  "source": {
+   "file_name": "Campbell_Biology_Ch10.pdf",
+   "file_id": null,
+   "type": "pdf",
+   "page": 189
+  },
+  "metadata": {
+   "figure_ids": [
+    "fig_calvin_cycle_p189"
+   ]
+  }
+ },
+ {
+  "id": "unit_lecture_slides_s05",
+  "course_id": "biology_101",
+  "text": "## Photosystems I & II Architecture\n\n• Photosystem II (PS II) functions first and absorbs best at 680 nm (P680).\n• Photosystem I (PS I) absorbs best at 700 nm (P700).\n• Linear electron flow drives the synthesis of ATP via photophosphorylation and generates NADPH.\n\n[Speaker Notes: Remind students that PS II was discovered after PS I but acts first in the linear pathway.]",
+  "topic": "Photosynthesis",
+  "subtopic": "Light Reactions",
+  "concept": "Photosystems and Electron Flow",
+  "source": {
+   "file_name": "Lecture_10_Photosynthesis.pptx",
+   "file_id": null,
+   "type": "slide",
+   "slide": 5
+  },
+  "metadata": {
+   "has_notes": true,
+   "figure_ids": [
+    "fig_photosystems_s05"
+   ]
+  }
+ },
+ {
+  "id": "unit_lecture_slides_s08",
+  "course_id": "biology_101",
+  "text": "## Chemiosmosis in Chloroplasts vs Mitochondria\n\n• Chloroplasts and mitochondria generate ATP by chemiosmosis, but use different sources of energy.\n• Mitochondria transfer chemical energy from food molecules to ATP; chloroplasts transform light energy into chemical energy in ATP.\n• In chloroplasts, high-energy electrons dropped down the transport chain come from water.",
+  "topic": "Photosynthesis",
+  "subtopic": "ATP Synthesis",
+  "concept": "Photophosphorylation",
+  "source": {
+   "file_name": "Lecture_10_Photosynthesis.pptx",
+   "file_id": null,
+   "type": "slide",
+   "slide": 8
+  },
+  "metadata": {
+   "has_notes": false,
+   "figure_ids": []
+  }
+ },
+ {
+  "id": "unit_prof_video_00300_01",
+  "course_id": "biology_101",
+  "text": "Notice how water is oxidized at the oxygen-evolving complex of photosystem II. For every two water molecules oxidized, four electrons are transferred, four protons are released into the thylakoid lumen, and one molecule of molecular oxygen is generated. This lumenal proton accumulation establishes the proton-motive force across the thylakoid membrane.",
+  "topic": "Photosynthesis",
+  "subtopic": "Light Reactions",
+  "concept": "Photolysis of Water",
+  "source": {
+   "file_name": "MIT_7.016_Lecture_14.mp4",
+   "file_id": null,
+   "type": "video",
+   "timestamp_start": "00:05:00",
+   "timestamp_end": "00:06:45",
+   "start_seconds": 300,
+   "end_seconds": 405
+  },
+  "metadata": {
+   "start_seconds": 300,
+   "end_seconds": 405
+  }
+ },
+ {
+  "id": "unit_prof_video_00720_02",
+  "course_id": "biology_101",
+  "text": "Now let's examine the enzyme RuBisCO—ribulose-1,5-bisphosphate carboxylase-oxygenase. RuBisCO catalyzes the very first step of the Calvin cycle, combining ribulose 1,5-bisphosphate with carbon dioxide. It is notoriously slow, fixing only 3 to 10 molecules of CO2 per second, which is why it is the most abundant protein on Earth.",
+  "topic": "Photosynthesis",
+  "subtopic": "Calvin Cycle",
+  "concept": "RuBisCO Enzyme Kinetics",
+  "source": {
+   "file_name": "MIT_7.016_Lecture_14.mp4",
+   "file_id": null,
+   "type": "video",
+   "timestamp_start": "00:12:00",
+   "timestamp_end": "00:14:15",
+   "start_seconds": 720,
+   "end_seconds": 855
+  },
+  "metadata": {
+   "start_seconds": 720,
+   "end_seconds": 855
+  }
+ }
+]
