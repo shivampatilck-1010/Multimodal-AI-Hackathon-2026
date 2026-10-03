@@ -79,7 +79,7 @@ For more details, see [docs/TESTING.md](docs/TESTING.md).
 ## Team Architecture
 
 - **Member 1 (Data Engineer):** Knowledge Base extraction and multimodal ingestion.
-- **Member 2 (RAG + AI Tutor Engineer):** Generative tutoring, query rewriting, citation validation, and retrieval interfaces.
+- **Member 2 (RAG + AI Tutor Engineer):** [DONE] Generative tutoring, query rewriting, citation validation, and retrieval interfaces.
 - **Member 3 (Assessment Engineer):** Grounded MCQ generation and assessment evaluation.
 - **Member 4 (Learner Model Engineer):** Student mastery tracking and topic personalization.
 
