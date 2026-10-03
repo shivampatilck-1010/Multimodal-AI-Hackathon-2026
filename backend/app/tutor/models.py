@@ -133,6 +133,7 @@ class ContentUnit(BaseModel):
     course_id: CourseId
     text: str = Field(min_length=1, max_length=20_000)
     topic: str | None = Field(default=None, max_length=300)
+    subtopic: str | None = Field(default=None, max_length=300)
     concept: str | None = Field(default=None, max_length=300)
     source: SourceReference
     metadata: dict[str, Any] = Field(default_factory=dict)

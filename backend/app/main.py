@@ -15,28 +15,48 @@ from app.tutor.vector_store import InMemoryVectorStore
 from app.tutor.providers import build_llm_provider, build_embedding_provider
 from app.tutor.service import TutorService
 
+from app.kb.media_store import MediaStore
+from app.kb.graph_store import GraphStore
+from app.ingestion.pipeline import IngestionPipeline
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Global instances
 kb: KnowledgeBase = None
 tutor_service: TutorService = None
+media_store: MediaStore = None
+graph_store: GraphStore = None
+ingestion_pipeline: IngestionPipeline = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global kb, tutor_service
+    global kb, tutor_service, media_store, graph_store, ingestion_pipeline
     settings = get_settings()
     
     # Initialize providers
     llm = build_llm_provider(settings)
     embedder = build_embedding_provider(settings)
     
-    # Initialize KB
+    # Initialize KB & Stores
     vector_store = InMemoryVectorStore()
     persist_dir = settings.data_dir if settings.persist else None
     
     kb = KnowledgeBase(store=vector_store, embedder=embedder, persist_dir=persist_dir)
     logger.info(f"Loaded Knowledge Base with {sum(kb.courses().values())} chunks.")
+    
+    media_dir = settings.data_dir / "figures"
+    graph_dir = settings.data_dir / "graphs" if settings.persist else None
+    media_store = MediaStore(base_dir=media_dir)
+    graph_store = GraphStore(persist_dir=graph_dir)
+    
+    api_key = settings.gemini_api_key.get_secret_value() if settings.gemini_api_key else None
+    ingestion_pipeline = IngestionPipeline(
+        kb=kb,
+        media_store=media_store,
+        graph_store=graph_store,
+        api_key=api_key,
+    )
     
     # Initialize Service
     tutor_service = TutorService(llm, kb)

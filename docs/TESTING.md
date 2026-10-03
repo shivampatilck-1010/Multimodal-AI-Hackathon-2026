@@ -23,4 +23,20 @@ pytest -q
 python scripts/test_query.py
 ```
 
-*Note: Member 1, 3, and 4 testing commands are NOT YET IMPLEMENTED.*
+## Member 1 Testing (Multimodal Knowledge Base)
+
+Run the full Member 1 suite (models, graph DAG acyclicity, topological sort, video timestamps, PDF/PPTX chunking):
+```powershell
+cd backend
+$env:PYTHONPATH="."
+pytest tests/test_member1_pipeline.py -v
+```
+
+Test multimodal database seeding (injects textbook excerpts, slides with notes, and timestamped lecture video chunks):
+```powershell
+cd backend
+$env:PYTHONPATH="."
+python scripts/seed_multimodal.py
+```
+
+*Note: Member 3 and 4 testing commands are awaiting their respective implementations.*
