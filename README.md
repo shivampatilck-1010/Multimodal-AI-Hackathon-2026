@@ -76,7 +76,22 @@ python scripts/seed_multimodal.py
 ```
 
 ### Running the Frontend
-*Frontend setup commands are NOT YET IMPLEMENTED.*
+
+1. Navigate to the frontend directory:
+   ```powershell
+   cd frontend
+   ```
+2. Install dependencies:
+   ```powershell
+   npm install
+   ```
+3. Start the Vite dev server:
+   ```powershell
+   npm run dev
+   ```
+   Open `http://localhost:5173` in your browser.
+
+For full frontend architecture, component layout, and mock data documentation, see [docs/dashboard.md](docs/dashboard.md).
 
 ## Key API Endpoints
 
