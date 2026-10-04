@@ -1483,3 +1483,67 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+/* --- Button Overrides for Visibility and Silver Ring Effect --- */
+.new-btn-primary-large, .new-btn-primary, .btn-primary {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #525252 !important;
+  box-shadow: none !important;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Base outline style instead of solid white */
+.new-btn-primary-large:hover, .new-btn-primary:hover, .btn-primary:hover {
+  background-color: #212121 !important;
+  color: #ffffff !important;
+  border-color: #a3a3a3 !important;
+  box-shadow: 0 0 10px rgba(163, 163, 163, 0.3) !important;
+}
+
+/* Silver motion ring effect on hover */
+.new-btn-primary-large::before, .new-btn-primary::before, .btn-primary::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  background: conic-gradient(from 0deg, transparent 0%, transparent 40%, #e5e5e5 50%, transparent 60%, transparent 100%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+.new-btn-primary-large:hover::before, .new-btn-primary:hover::before, .btn-primary:hover::before {
+  opacity: 1;
+  animation: silver-ring-spin 2s linear infinite;
+}
+
+@keyframes silver-ring-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Ensure inner content has background so ring only shows on border */
+.new-btn-primary-large::after, .new-btn-primary::after, .btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: #000000;
+  z-index: -1;
+  border-radius: inherit;
+  transition: background 0.3s ease;
+}
+
+.new-btn-primary-large:hover::after, .new-btn-primary:hover::after, .btn-primary:hover::after {
+  background: #212121;
+}
+
+/* Reduce large white patches across the board */
+:root {
+  --primary-500: #525252 !important;
+  --primary-600: #212121 !important;
+  --primary-700: #000000 !important;
+  --accent: #525252 !important;
+}
+
