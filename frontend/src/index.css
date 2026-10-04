@@ -1547,3 +1547,23 @@ body {
   --accent: #525252 !important;
 }
 
+/* --- Force All Text to White --- */
+:root {
+  --text-primary: #ffffff !important;
+  --text-secondary: #ffffff !important;
+  --text-muted: #e5e5e5 !important;
+  --text-inverse: #000000 !important;
+  --danger-text: #ffffff !important;
+  --warning-text: #ffffff !important;
+  --success-text: #ffffff !important;
+}
+
+body, p, h1, h2, h3, h4, h5, h6, span, div, li, a, button {
+  color: #ffffff !important;
+}
+
+/* Ensure placeholder text is also clearly visible (off-white) */
+::placeholder {
+  color: #d4d4d4 !important;
+}
+
