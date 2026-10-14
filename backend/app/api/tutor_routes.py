@@ -14,7 +14,7 @@ class AskRequest(BaseModel):
     course_id: str = "hackathon_course"
 
 @router.post("/ask", response_model=TutorAnswer)
-async def ask_tutor(request: AskRequest):
+def ask_tutor(request: AskRequest):
     from app.main import tutor_service
     
     if not tutor_service:

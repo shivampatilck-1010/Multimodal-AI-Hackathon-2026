@@ -19,7 +19,7 @@ router = APIRouter()
 
 
 @router.post("/generate", response_model=AssessmentQuiz)
-async def generate_assessment(request: GenerateAssessmentRequest):
+def generate_assessment(request: GenerateAssessmentRequest):
     """Generate a source-grounded quiz tailored to student scope, topic, and difficulty."""
     from app.main import assessment_service
 
@@ -35,7 +35,7 @@ async def generate_assessment(request: GenerateAssessmentRequest):
 
 
 @router.get("/{quiz_id}", response_model=AssessmentQuiz)
-async def get_assessment(quiz_id: str):
+def get_assessment(quiz_id: str):
     """Fetch an active assessment quiz by ID."""
     from app.main import assessment_service
 
@@ -49,7 +49,7 @@ async def get_assessment(quiz_id: str):
 
 
 @router.post("/submit", response_model=AssessmentReport)
-async def submit_assessment(submission: SubmitAssessmentRequest):
+def submit_assessment(submission: SubmitAssessmentRequest):
     """Submit student answers, receive instant cited feedback, and trigger BKT mastery updates."""
     from app.main import assessment_service
 
