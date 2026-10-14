@@ -35,13 +35,13 @@ flowchart TD
 - **Interface:** Member 1 exposes `GET /api/kb/courses/{course_id}/prerequisites` providing the DAG of concept dependencies (with cycle resolution guaranteed) and `GET /api/kb/courses/{course_id}/learning_path` providing topological sort order for Bayesian Knowledge Tracing.
 
 ### Member 2 → Member 3
-**STATUS:** IMPLEMENTED (Retrieval API defined, awaiting Member 3 generation)
-- **Interface:** Member 3 calls `Retriever.retrieve()` to fetch source-grounded evidence to populate MCQs.
+**STATUS:** FULLY IMPLEMENTED
+- **Interface:** Member 3 calls `Retriever.retrieve()` to fetch source-grounded evidence to populate MCQs with exact source locations (`PdfSource`, `SlideSource`, `VideoSource`).
 
 ### Member 3 → Member 4
-**STATUS:** NOT YET IMPLEMENTED
-- **Interface:** Unknown. Member 3 must supply difficulty, student response, expected answer, and correctness to Member 4.
+**STATUS:** FULLY IMPLEMENTED
+- **Interface:** `AssessmentService` automatically calls `LearnerModelService.on_assessment_completed(report: AssessmentReport)` upon submission. Each evaluated question updates the target concept's Bayesian Knowledge Tracing score ($P(\text{know})$).
 
 ### Member 2 → Member 4
-**STATUS:** IMPLEMENTED (Event schema defined, awaiting Member 4 consumption)
-- **Interface:** Member 2 emits `TutorTurnEvent` (defined in `app/tutor/models.py`) containing the user query, grounded status, and topics touched.
+**STATUS:** FULLY IMPLEMENTED
+- **Interface:** `TutorService` emits `TutorTurnEvent` directly to `LearnerModelService.on_tutor_turn(event)`. Discussed concepts receive scaffolding boosts and are recorded in the student's recent activity stream.

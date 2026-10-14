@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
 import { DashboardView } from "./components/DashboardView";
-import {
-  TutorPage,
-  AssessmentsPage,
-  ProgressPage,
-  MaterialsPage,
-  CourseMapPage,
-  SettingsPage,
-} from "./pages/RoutePlaceholders";
+import { TutorChat } from "./pages/TutorChat";
+import { AssessmentsPage } from "./pages/AssessmentsPage";
+import { ProgressPage } from "./pages/ProgressPage";
+import { MaterialsPage } from "./pages/MaterialsPage";
+import { CourseMapPage } from "./pages/CourseMapPage";
+import { SettingsPage } from "./pages/RoutePlaceholders";
 import { initialDashboardData, newStudentDashboardData } from "./data/mockDashboardData";
 import type { DashboardData, DashboardViewMode, NavRoute, CourseInfo } from "./types/dashboard";
 
@@ -99,7 +97,7 @@ export const App: React.FC = () => {
   const renderCurrentRouteView = () => {
     switch (currentRoute) {
       case "tutor":
-        return <TutorPage onBack={() => navigateTo("dashboard")} />;
+        return <TutorChat onBack={() => navigateTo("dashboard")} />;
       case "assessments":
         return <AssessmentsPage onBack={() => navigateTo("dashboard")} />;
       case "progress":

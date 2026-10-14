@@ -10,6 +10,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.api.kb_routes import router as kb_router
 from app.api.tutor_routes import router as tutor_router
+from app.api.assessment_routes import router as assessment_router
+from app.api.learner_routes import router as learner_router
 from app.tutor.knowledge_base import KnowledgeBase
 from app.tutor.vector_store import InMemoryVectorStore
 from app.tutor.providers import build_llm_provider, build_embedding_provider
@@ -19,6 +21,8 @@ from app.tutor.models import ContentUnit
 from app.kb.media_store import MediaStore
 from app.kb.graph_store import GraphStore
 from app.ingestion.pipeline import IngestionPipeline
+from app.assessment.service import AssessmentService
+from app.learner.service import LearnerModelService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -29,10 +33,12 @@ tutor_service: TutorService = None
 media_store: MediaStore = None
 graph_store: GraphStore = None
 ingestion_pipeline: IngestionPipeline = None
+assessment_service: AssessmentService = None
+learner_service: LearnerModelService = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global kb, tutor_service, media_store, graph_store, ingestion_pipeline
+    global kb, tutor_service, media_store, graph_store, ingestion_pipeline, assessment_service, learner_service
     settings = get_settings()
     
     # Initialize providers
@@ -61,6 +67,26 @@ async def lifespan(app: FastAPI):
     
     # Initialize Service
     tutor_service = TutorService(llm, kb)
+
+    # Initialize Member 4 Learner Model
+    profiles_dir = settings.data_dir / "profiles" if settings.persist else None
+    learner_service = LearnerModelService(
+        graph_store=graph_store,
+        kb=kb,
+        persist_dir=profiles_dir,
+    )
+
+    # Initialize Member 3 Assessment Service
+    assessment_service = AssessmentService(
+        kb=kb,
+        llm=llm,
+        graph_store=graph_store,
+        media_store=media_store,
+    )
+
+    # Interconnect telemetry streams
+    assessment_service.set_learner_service(learner_service)
+    tutor_service.set_learner_service(learner_service)
     
     # Auto-seed sample multimodal course if KB is empty
     if settings.seed_on_startup and settings.seed_file and settings.seed_file.exists():
@@ -99,6 +125,8 @@ app.add_middleware(
 
 app.include_router(kb_router, prefix="/api/kb", tags=["Knowledge Base"])
 app.include_router(tutor_router, prefix="/api/tutor", tags=["Tutor"])
+app.include_router(assessment_router, prefix="/api/assessments", tags=["Assessments"])
+app.include_router(learner_router, prefix="/api/learner", tags=["Learner Model"])
 
 @app.get("/health")
 def health_check():

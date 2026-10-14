@@ -35,6 +35,10 @@ class TutorService:
             
         self.gate = EvidenceGate(min_score=min_score, min_chunks=settings.grounding_min_chunks)
         self.sessions: Dict[str, ConversationMemory] = {}
+        self._learner_service: Any = None
+
+    def set_learner_service(self, learner_service: Any) -> None:
+        self._learner_service = learner_service
 
     def get_memory(self, session_id: str) -> ConversationMemory:
         if session_id not in self.sessions:
@@ -124,6 +128,30 @@ class TutorService:
                 
             memory.add_user_message(query)
             memory.add_assistant_message(ans.answer)
+
+            # Telemetry to Member 4 Learner Model
+            if self._learner_service is not None and ans.grounded:
+                try:
+                    from app.tutor.models import TutorTurnEvent
+                    topics = list({c.topic for c in ans.citations if c.topic})
+                    concepts = list({c.concept for c in ans.citations if c.concept})
+                    event = TutorTurnEvent(
+                        user_id=session_id,
+                        course_id=course_id,
+                        conversation_id=session_id,
+                        message_id=None,
+                        question=query,
+                        rewritten_query=standalone_query,
+                        grounded=ans.grounded,
+                        topics=topics,
+                        concepts=concepts,
+                        cited_chunk_ids=[c.source_id for c in ans.citations],
+                        level=level,  # type: ignore[arg-type]
+                    )
+                    self._learner_service.on_tutor_turn(event)
+                except Exception as ex:
+                    logger.debug(f"Telemetry error on tutor turn: {ex}")
+
             return ans
             
         except Exception as e:

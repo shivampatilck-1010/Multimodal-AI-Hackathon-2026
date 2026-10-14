@@ -107,8 +107,13 @@ Interactive Swagger documentation is available at `http://localhost:8000/docs`.
 | `/api/kb/figures/{course_id}/{figure_id}/image` | `GET` | UI / Member 3 | Stream raw diagram image crop for assessment questions. |
 | `/api/kb/courses/{course_id}/prerequisites` | `GET` | Member 4 | Full concept prerequisite DAG (verified acyclic) for student mastery tracking. |
 | `/api/kb/courses/{course_id}/learning_path` | `GET` | Member 4 | Topological sort ordering of concepts (prerequisites first). |
-| `/api/kb/courses/{course_id}/flowchart` | `GET` | UI / All | Visual course flow map in Mermaid syntax (Track D 6.a). |
+| `/api/kb/flowchart` | `GET` | UI / All | Visual course flow map in Mermaid syntax (Track D 6.a). |
 | `/api/tutor/ask` | `POST` | Member 2 / UI | Ask tutor questions with strict evidence-gating and verified citations. |
+| `/api/assessments/generate` | `POST` | Member 3 / UI | Generate source-grounded quizzes (MCQ/problem-solving) tagged to concepts and difficulty. |
+| `/api/assessments/submit` | `POST` | Member 3 / UI | Submit quiz answers for instant grading, cited feedback, and misconception diagnosis. |
+| `/api/learner/{user_id}/dashboard` | `GET` | Member 4 / UI | Live student curriculum mastery summary, activity stream, and priority topics. |
+| `/api/learner/{user_id}/recommendations` | `GET` | Member 4 / UI | Adaptive next steps with prerequisite DAG root-cause blocker detection. |
+| `/api/learner/simulation/run` | `GET` | Member 4 / Benchmark | Track D 5.c multi-student cohort benchmark simulation across sessions. |
 
 ## Testing
 
@@ -130,8 +135,14 @@ pytest tests/test_end_to_end_ingestion.py -v
 # Member 2 grounding tests
 pytest tests/test_grounding.py -v
 
-# End-to-end query verification script
-python scripts/test_query.py
+# Member 3 assessment tests (question generation, grading, citations)
+pytest tests/test_assessment.py -v
+
+# Member 4 learner model tests (BKT, prerequisite remediation, simulations)
+pytest tests/test_learner_model.py -v
+
+# End-to-end FastAPI API integration loop
+pytest tests/test_api_integration.py -v
 ```
 For more details, see [docs/TESTING.md](docs/TESTING.md).
 
@@ -139,8 +150,8 @@ For more details, see [docs/TESTING.md](docs/TESTING.md).
 
 - **Member 1 (Data Engineer):** [DONE] Multimodal ingestion (PDF, PPTX, Video), diagram understanding, provenance tracking, prerequisite DAGs, and KB API contracts.
 - **Member 2 (RAG + AI Tutor Engineer):** [DONE] Generative tutoring, query rewriting, citation validation, and retrieval interfaces.
-- **Member 3 (Assessment Engineer):** Grounded MCQ generation and assessment evaluation.
-- **Member 4 (Learner Model Engineer):** Student mastery tracking and topic personalization.
+- **Member 3 (Assessment Engineer):** [DONE] Grounded quiz generation (MCQ, short answer), scoring, cited feedback, misconception detection, and post-assessment reports.
+- **Member 4 (Learner Model Engineer):** [DONE] Bayesian Knowledge Tracing (BKT), prerequisite DAG root-cause gap diagnosis, telemetry ingestion from tutor & assessments, and cohort simulations (Track D 5.c).
 
 ## Integration Documentation
 
