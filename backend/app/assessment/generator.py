@@ -289,7 +289,7 @@ class AssessmentGenerator:
             },
             source=unit.source,
             chunk_id=unit.id,
-            figure_id=unit.metadata.get("figure_ids", [None])[0] if "figure_ids" in unit.metadata else None,
+            figure_id=unit.metadata["figure_ids"][0] if unit.metadata.get("figure_ids") else None,
         )
 
     def _signature(self, text: str) -> str:

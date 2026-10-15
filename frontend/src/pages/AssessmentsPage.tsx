@@ -260,9 +260,9 @@ export const AssessmentsPage: React.FC<{ onBack: () => void }> = ({ onBack }) =>
                   style={{
                     padding: "4px 12px",
                     borderRadius: "6px",
-                    background: numQuestions === n ? "#333" : "#111",
-                    border: numQuestions === n ? "1px solid #fff" : "1px solid #444",
-                    color: "#fff",
+                    background: numQuestions === n ? "#333333" : "#111111",
+                    border: numQuestions === n ? "1px solid #777777" : "1px solid #444444",
+                    color: "#ffffff",
                     cursor: "pointer",
                   }}
                 >
@@ -288,24 +288,24 @@ export const AssessmentsPage: React.FC<{ onBack: () => void }> = ({ onBack }) =>
       {quiz && !report && (
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h2 style={{ fontSize: "1.3rem", fontWeight: 700, margin: 0 }}>Active Assessment ({quiz.questions.length} Questions)</h2>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 700, margin: 0, color: "#ffffff" }}>Active Assessment ({quiz.questions.length} Questions)</h2>
             <span style={{ fontSize: "0.85rem", color: "#a3a3a3" }}>
               Answered: {Object.keys(selectedAnswers).length}/{quiz.questions.length}
             </span>
           </div>
 
           {quiz.questions.map((q, idx) => (
-            <div key={q.id} className="card-surface" style={{ padding: "24px", borderRadius: "12px", border: "1px solid #333" }}>
+            <div key={q.id} className="card-surface" style={{ padding: "24px", borderRadius: "12px", border: "1px solid #333333" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
                 <span style={{ fontSize: "0.8rem", color: "#a3a3a3", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                   Question {idx + 1} • {q.topic} ({q.concept_name})
                 </span>
-                <span style={{ fontSize: "0.75rem", background: "#1a1a1a", border: "1px solid #333", padding: "2px 8px", borderRadius: "4px", color: "#e5e5e5" }}>
+                <span style={{ fontSize: "0.75rem", background: "#1a1a1a", border: "1px solid #333333", padding: "2px 8px", borderRadius: "4px", color: "#ffffff" }}>
                   Grounded in {q.source.file_name}
                 </span>
               </div>
 
-              <p style={{ fontSize: "1.05rem", fontWeight: 500, lineHeight: 1.5, marginBottom: "20px" }}>
+              <p style={{ fontSize: "1.05rem", fontWeight: 500, lineHeight: 1.5, marginBottom: "20px", color: "#ffffff" }}>
                 {q.question_text}
               </p>
 
@@ -323,8 +323,8 @@ export const AssessmentsPage: React.FC<{ onBack: () => void }> = ({ onBack }) =>
                         padding: "12px 16px",
                         borderRadius: "8px",
                         background: isSelected ? "#212121" : "#0a0a0a",
-                        border: isSelected ? "1px solid #ffffff" : "1px solid #333",
-                        boxShadow: isSelected ? "0 0 10px rgba(255,255,255,0.2)" : "none",
+                        border: isSelected ? "1px solid #777777" : "1px solid #333333",
+                        boxShadow: isSelected ? "0 0 10px rgba(160,160,160,0.15)" : "none",
                         cursor: "pointer",
                         transition: "all 0.2s ease",
                       }}
@@ -337,8 +337,9 @@ export const AssessmentsPage: React.FC<{ onBack: () => void }> = ({ onBack }) =>
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          background: isSelected ? "#ffffff" : "#1a1a1a",
-                          color: isSelected ? "#000000" : "#ffffff",
+                          background: isSelected ? "#383838" : "#1a1a1a",
+                          color: "#ffffff",
+                          border: isSelected ? "1px solid #777777" : "1px solid #333333",
                           fontWeight: 700,
                           fontSize: "0.85rem",
                         }}

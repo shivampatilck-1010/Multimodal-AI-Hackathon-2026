@@ -30,7 +30,7 @@ def generate_assessment(request: GenerateAssessmentRequest):
         quiz = assessment_service.generate_assessment(request)
         return quiz
     except Exception as e:
-        logger.error(f"Failed to generate assessment: {e}")
+        logger.exception("Failed to generate assessment")
         raise HTTPException(status_code=500, detail=str(e))
 
 

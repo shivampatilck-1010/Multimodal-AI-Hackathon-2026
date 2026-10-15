@@ -97,9 +97,9 @@ export const MaterialsPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 style={{
                   padding: "8px 16px",
                   borderRadius: "8px",
-                  background: filter === t ? "#ffffff" : "#111",
-                  color: filter === t ? "#000000" : "#ffffff",
-                  border: "1px solid #444",
+                  background: filter === t ? "#333333" : "#111111",
+                  color: "#ffffff",
+                  border: filter === t ? "1px solid #777777" : "1px solid #444444",
                   fontWeight: 600,
                   fontSize: "0.85rem",
                   cursor: "pointer",

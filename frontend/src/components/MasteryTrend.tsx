@@ -84,7 +84,7 @@ export const MasteryTrend: React.FC<MasteryTrendProps> = ({ history }) => {
           <defs>
             <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#6366f1" />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+              <stop offset="100%" stopColor="#212121" stopOpacity={0} />
             </linearGradient>
           </defs>
 
@@ -106,7 +106,7 @@ export const MasteryTrend: React.FC<MasteryTrendProps> = ({ history }) => {
                 cy={pt.y}
                 r={activePoint?.period === pt.period ? 6 : 4.5}
                 fill={activePoint?.period === pt.period ? "#4338ca" : "#6366f1"}
-                stroke="#ffffff"
+                stroke="#333333"
                 strokeWidth="2"
                 style={{ cursor: "pointer", transition: "r 150ms ease" }}
                 onMouseEnter={() => setActivePoint(pt)}

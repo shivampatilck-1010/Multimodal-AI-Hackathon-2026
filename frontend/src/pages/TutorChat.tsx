@@ -87,38 +87,38 @@ export const TutorChat: React.FC<TutorChatProps> = ({ onBack }) => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 80px)", maxWidth: "800px", margin: "0 auto", backgroundColor: "#fff", borderRadius: "12px", border: "1px solid var(--border-color)", overflow: "hidden" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 80px)", maxWidth: "800px", margin: "0 auto", backgroundColor: "#000000", borderRadius: "12px", border: "1px solid #333333", overflow: "hidden" }}>
       {/* Header */}
-      <div style={{ display: "flex", alignItems: "center", padding: "16px", borderBottom: "1px solid var(--border-color)", backgroundColor: "var(--surface-bg)" }}>
-        <button onClick={onBack} style={{ display: "flex", alignItems: "center", background: "none", border: "none", cursor: "pointer", color: "var(--text-secondary)", marginRight: "16px" }}>
+      <div style={{ display: "flex", alignItems: "center", padding: "16px", borderBottom: "1px solid #212121", backgroundColor: "#0a0a0a" }}>
+        <button onClick={onBack} style={{ display: "flex", alignItems: "center", background: "none", border: "none", cursor: "pointer", color: "#ffffff", marginRight: "16px" }}>
           <ArrowLeft size={20} style={{ marginRight: "8px" }} /> Back
         </button>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "var(--primary-100)", color: "var(--primary-600)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "#212121", border: "1px solid #444444", color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Bot size={24} />
           </div>
           <div>
-            <h2 style={{ fontSize: "1.1rem", margin: 0 }}>AI Tutor</h2>
-            <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", margin: 0 }}>Grounded strictly in your course materials</p>
+            <h2 style={{ fontSize: "1.1rem", margin: 0, color: "#ffffff" }}>AI Tutor</h2>
+            <p style={{ fontSize: "0.85rem", color: "#a3a3a3", margin: 0 }}>Grounded strictly in your course materials</p>
           </div>
         </div>
       </div>
 
       {/* Chat Area */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "24px", display: "flex", flexDirection: "column", gap: "24px" }}>
+      <div style={{ flex: 1, overflowY: "auto", padding: "24px", display: "flex", flexDirection: "column", gap: "24px", backgroundColor: "#000000" }}>
         {messages.length === 0 && (
-          <div style={{ textAlign: "center", color: "var(--text-tertiary)", marginTop: "40px" }}>
+          <div style={{ textAlign: "center", color: "#a3a3a3", marginTop: "40px" }}>
             Ask a question about the course materials...
           </div>
         )}
         
         {messages.map((msg) => (
           <div key={msg.id} style={{ display: "flex", gap: "16px", flexDirection: msg.role === "user" ? "row-reverse" : "row" }}>
-            <div style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundColor: msg.role === "user" ? "var(--primary-600)" : "var(--primary-100)", color: msg.role === "user" ? "#fff" : "var(--primary-600)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <div style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundColor: msg.role === "user" ? "#212121" : "#161616", border: msg.role === "user" ? "1px solid #525252" : "1px solid #333333", color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               {msg.role === "user" ? <User size={20} /> : <Bot size={20} />}
             </div>
             <div style={{ maxWidth: "75%", display: "flex", flexDirection: "column", gap: "8px", alignItems: msg.role === "user" ? "flex-end" : "flex-start" }}>
-              <div style={{ backgroundColor: msg.role === "user" ? "var(--primary-600)" : "var(--surface-bg)", color: msg.role === "user" ? "#fff" : "var(--text-primary)", padding: "12px 16px", borderRadius: "16px", borderBottomRightRadius: msg.role === "user" ? "4px" : "16px", borderBottomLeftRadius: msg.role === "tutor" ? "4px" : "16px", border: msg.role === "tutor" ? "1px solid var(--border-color)" : "none", lineHeight: 1.5 }}>
+              <div style={{ backgroundColor: msg.role === "user" ? "#212121" : "#0e0e0e", color: "#ffffff", padding: "12px 16px", borderRadius: "16px", borderBottomRightRadius: msg.role === "user" ? "4px" : "16px", borderBottomLeftRadius: msg.role === "tutor" ? "4px" : "16px", border: msg.role === "user" ? "1px solid #525252" : "1px solid #333333", lineHeight: 1.5 }}>
                 {msg.text}
               </div>
               
@@ -126,7 +126,7 @@ export const TutorChat: React.FC<TutorChatProps> = ({ onBack }) => {
               {msg.citations && msg.citations.length > 0 && (
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                   {msg.citations.map((c: any, i: number) => (
-                    <span key={i} style={{ fontSize: "0.75rem", padding: "2px 8px", backgroundColor: "var(--primary-50)", color: "var(--primary-700)", borderRadius: "12px", border: "1px solid var(--primary-100)" }}>
+                    <span key={i} style={{ fontSize: "0.75rem", padding: "2px 8px", backgroundColor: "#161616", color: "#ffffff", borderRadius: "12px", border: "1px solid #444444" }}>
                       📄 {c.title || c.chunk_id}
                     </span>
                   ))}
@@ -137,17 +137,17 @@ export const TutorChat: React.FC<TutorChatProps> = ({ onBack }) => {
         ))}
         {loading && (
           <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-             <div style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundColor: "var(--primary-100)", color: "var(--primary-600)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+             <div style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundColor: "#161616", border: "1px solid #333333", color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Bot size={20} />
              </div>
-             <Loader2 size={20} className="spinner" style={{ animation: "spin 1s linear infinite", color: "var(--text-tertiary)" }} />
+             <Loader2 size={20} className="spinner" style={{ animation: "spin 1s linear infinite", color: "#a3a3a3" }} />
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input Area */}
-      <div style={{ padding: "16px", borderTop: "1px solid var(--border-color)", backgroundColor: "#fff" }}>
+      <div style={{ padding: "16px", borderTop: "1px solid #212121", backgroundColor: "#0a0a0a" }}>
         <div style={{ display: "flex", gap: "12px", position: "relative" }}>
           <input 
             type="text" 
@@ -155,13 +155,13 @@ export const TutorChat: React.FC<TutorChatProps> = ({ onBack }) => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             placeholder="Ask your tutor anything..."
-            style={{ flex: 1, padding: "14px 48px 14px 16px", borderRadius: "24px", border: "1px solid var(--border-color)", outline: "none", fontSize: "1rem" }}
+            style={{ flex: 1, padding: "14px 48px 14px 16px", borderRadius: "24px", border: "1px solid #333333", backgroundColor: "#161616", color: "#ffffff", outline: "none", fontSize: "1rem" }}
             disabled={loading}
           />
           <button 
             onClick={handleSend}
             disabled={!input.trim() || loading}
-            style={{ position: "absolute", right: "6px", top: "6px", bottom: "6px", width: "40px", borderRadius: "50%", border: "none", backgroundColor: input.trim() && !loading ? "var(--primary-600)" : "transparent", color: input.trim() && !loading ? "#fff" : "var(--text-tertiary)", display: "flex", alignItems: "center", justifyContent: "center", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.2s" }}
+            style={{ position: "absolute", right: "6px", top: "6px", bottom: "6px", width: "40px", borderRadius: "50%", border: input.trim() && !loading ? "1px solid #525252" : "none", backgroundColor: input.trim() && !loading ? "#262626" : "transparent", color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.2s" }}
           >
             <Send size={18} style={{ marginLeft: input.trim() && !loading ? "2px" : "0" }} />
           </button>

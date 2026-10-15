@@ -99,7 +99,7 @@ export const TopicDetailModal: React.FC<TopicDetailModalProps> = ({
                   fontSize: "0.9rem",
                   padding: "6px 10px",
                   borderRadius: "var(--border-radius-sm)",
-                  background: concept.status === "needs_work" ? "#fff8f8" : "var(--bg-subtle)",
+                  background: concept.status === "needs_work" ? "#211515" : "var(--bg-subtle)",
                 }}
               >
                 {concept.status === "mastered" ? (

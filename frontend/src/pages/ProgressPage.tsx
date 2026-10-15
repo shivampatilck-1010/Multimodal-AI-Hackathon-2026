@@ -183,7 +183,7 @@ export const ProgressPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               </div>
 
               {rec.prerequisite_blocker_name && (
-                <span style={{ fontSize: "0.75rem", background: "#f59e0b", color: "#000", fontWeight: 700, padding: "4px 10px", borderRadius: "4px" }}>
+                <span style={{ fontSize: "0.75rem", background: "#261a08", border: "1px solid #f59e0b", color: "#ffffff", fontWeight: 700, padding: "4px 10px", borderRadius: "4px" }}>
                   BLOCKER: {rec.prerequisite_blocker_name}
                 </span>
               )}
