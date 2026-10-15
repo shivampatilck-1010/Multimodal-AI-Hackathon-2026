@@ -1,0 +1,302 @@
+"""Concept and taxonomy extractor for topics, subtopics, and key concepts."""
+
+from __future__ import annotations
+
+import json
+import logging
+import re
+from collections import Counter
+from typing import Any
+
+from app.tutor.models import ContentUnit
+from app.kb.models import ConceptNode, FigureUnit
+
+logger = logging.getLogger(__name__)
+
+TAXONOMY_PROMPT = """You are an academic curriculum designer.
+Analyze the following course material excerpts from course: {course_id}.
+
+Extract a coherent pedagogical curriculum taxonomy:
+1. Major Topics (e.g. "Photosynthesis", "Cellular Respiration")
+2. Subtopics under each topic (e.g. "Light Reactions", "Calvin Cycle")
+3. Key Concepts under each subtopic (e.g. "Thylakoid Membrane", "ATP Synthase")
+
+Course excerpts:
+{excerpts}
+
+Return a valid JSON object matching this structure:
+{{
+  "topics": [
+    {{
+      "name": "Topic Name",
+      "subtopics": [
+        {{
+          "name": "Subtopic Name",
+          "concepts": [
+            {{
+              "name": "Concept Name",
+              "summary": "1-2 sentence core pedagogical explanation"
+            }}
+          ]
+        }}
+      ]
+    }}
+  ]
+}}
+Only return the valid JSON, no markdown code fence.
+"""
+
+
+class ConceptExtractor:
+    """Discovers topics, subtopics, and key concepts and tags ContentUnits."""
+
+    def __init__(
+        self,
+        api_key: str | None = None,
+        model: str = "gemini-3.8-flash",
+    ) -> None:
+        self.api_key = api_key
+        self.model = model
+        self._client = None
+        if api_key:
+            try:
+                from google import genai
+
+                self._client = genai.Client(api_key=api_key)
+            except Exception as e:
+                logger.warning(f"could_not_initialize_genai_client: {e}")
+
+
+def extract_taxonomy(self, course_id, units, figures=None):
+    """
+    Extract concepts from course units and return:
+    (tagged_units, concept_nodes, hierarchy).
+
+    Prefer the existing Gemini extractor. If it fails, use the
+    heuristic extractor only when that method actually exists.
+    """
+    figures = figures or []
+
+    gemini_extractor = getattr(self, "_extract_with_gemini", None)
+    heuristic_extractor = getattr(self, "_extract_heuristic", None)
+
+    if callable(gemini_extractor):
+        try:
+            result = gemini_extractor(course_id, units, figures)
+            if result:
+                return result
+        except Exception:
+            if not callable(heuristic_extractor):
+                raise
+
+    if callable(heuristic_extractor):
+        return heuristic_extractor(course_id, units, figures)
+
+    raise RuntimeError(
+        "Concept extraction is unavailable: "
+        "neither _extract_with_gemini nor _extract_heuristic "
+        "is implemented in ConceptExtractor."
+    )
+
+
+
+def _extract_heuristic(
+    self,
+    course_id: str,
+    units: list[ContentUnit],
+) -> tuple[dict[str, ConceptNode], dict[str, dict[str, list[str]]]]:
+    """Build a deterministic taxonomy from actual content-unit metadata."""
+    nodes: dict[str, ConceptNode] = {}
+    hierarchy: dict[str, dict[str, list[str]]] = {}
+
+    def make_id(value: str) -> str:
+        slug = re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
+        return slug or "untitled"
+
+    # Group units by their actual topic, preserving the source unit IDs.
+    units_by_topic: dict[str, list[ContentUnit]] = {}
+    for unit in units:
+        topic = (getattr(unit, "topic", None) or "").strip()
+        if not topic:
+            topic = "General Concepts"
+        units_by_topic.setdefault(topic, []).append(unit)
+
+    for topic, topic_units in units_by_topic.items():
+        topic_id = f"concept_{make_id(topic)}"
+        subtopics: dict[str, list[ContentUnit]] = {}
+
+        for unit in topic_units:
+            subtopic = (getattr(unit, "subtopic", None) or "").strip()
+            if not subtopic:
+                subtopic = "Key Concepts"
+            subtopics.setdefault(subtopic, []).append(unit)
+
+        hierarchy[topic] = {}
+
+        # Create a topic-level concept. Clicking the topic returns all its evidence.
+        topic_summary = " ".join(
+            dict.fromkeys(
+                (getattr(unit, "text", "") or "").strip()
+                for unit in topic_units
+                if (getattr(unit, "text", "") or "").strip()
+            )
+        )
+        nodes[topic_id] = ConceptNode(
+            id=topic_id,
+            course_id=course_id,
+            name=topic,
+            topic=topic,
+            subtopic="Overview",
+            summary=(
+                topic_summary[:1000]
+                if topic_summary
+                else f"Course material covering {topic}."
+            ),
+            content_unit_ids=list(dict.fromkeys(unit.id for unit in topic_units)),
+            figure_ids=[],
+        )
+
+        for subtopic, subtopic_units in subtopics.items():
+            hierarchy[topic][subtopic] = []
+            for unit in subtopic_units:
+                concept_name = (
+                    getattr(unit, "concept", None)
+                    or subtopic
+                    or topic
+                ).strip()
+                concept_id = f"concept_{make_id(topic)}_{make_id(concept_name)}"
+
+                existing = nodes.get(concept_id)
+                if existing is not None:
+                    # Multiple units may support the same concept.
+                    existing.content_unit_ids = list(
+                        dict.fromkeys(
+                            existing.content_unit_ids + [unit.id]
+                        )
+                    )
+                else:
+                    unit_text = (getattr(unit, "text", "") or "").strip()
+                    nodes[concept_id] = ConceptNode(
+                        id=concept_id,
+                        course_id=course_id,
+                        name=concept_name,
+                        topic=topic,
+                        subtopic=subtopic,
+                        summary=(
+                            unit_text[:1000]
+                            if unit_text
+                            else f"Course material covering {concept_name}."
+                        ),
+                        content_unit_ids=[unit.id],
+                        figure_ids=[],
+                    )
+
+                if concept_id not in hierarchy[topic][subtopic]:
+                    hierarchy[topic][subtopic].append(concept_id)
+
+    logger.info(
+        "heuristic_taxonomy_built",
+        extra={
+            "course_id": course_id,
+            "topic_count": len(units_by_topic),
+            "concept_count": len(nodes),
+            "unit_count": len(units),
+        },
+    )
+    return nodes, hierarchy
+
+
+    def _extract_with_gemini(
+        self,
+        course_id: str,
+        units: list[ContentUnit],
+    ) -> tuple[dict[str, ConceptNode], dict[str, dict[str, list[str]]]]:
+        # Take representative excerpts across chunks
+        sample_units = units[:25]
+        excerpts = "\n\n".join(
+            f"--- Unit {u.id} ({u.source.location_label()}) ---\n{u.text[:400]}"
+            for u in sample_units
+        )
+        prompt = TAXONOMY_PROMPT.format(course_id=course_id, excerpts=excerpts)
+        response = self._client.models.generate_content(
+            model=self.model,
+            contents=[prompt],
+        )
+        text = response.text.strip()
+        if text.startswith("```json"):
+            text = text[7:]
+        if text.startswith("```"):
+            text = text[3:]
+        if text.endswith("```"):
+            text = text[:-3]
+        parsed = json.loads(text.strip())
+
+        nodes: dict[str, ConceptNode] = {}
+        hierarchy: dict[str, dict[str, list[str]]] = {}
+
+        for t in parsed.get("topics", []):
+            topic_name = t.get("name", "General")
+            hierarchy.setdefault(topic_name, {})
+            for sub in t.get("subtopics", []):
+                sub_name = sub.get("name", "Core")
+                hierarchy[topic_name].setdefault(sub_name, [])
+                for c in sub.get("concepts", []):
+                    c_name = c.get("name", "")
+                    if not c_name:
+                        continue
+                    cid = f"concept_{re.sub(r'[^A-Za-z0-9_]+', '_', c_name.lower())}"
+                    hierarchy[topic_name][sub_name].append(cid)
+                    nodes[cid] = ConceptNode(
+                        id=cid,
+                        course_id=course_id,
+                        name=c_name,
+                        topic=topic_name,
+                        subtopic=sub_name,
+                        summary=c.get("summary", ""),
+                        content_unit_ids=[],
+                        figure_ids=[],
+                    )
+
+        return nodes, hierarchy
+
+    def _tag_units(
+        self,
+        units: list[ContentUnit],
+        nodes: dict[str, ConceptNode],
+    ) -> list[ContentUnit]:
+        """Tag each ContentUnit with best matching topic and concept."""
+        for u in units:
+            unit_text_lower = u.text.lower()
+            matched_concept: ConceptNode | None = None
+
+            for node in nodes.values():
+                # Case-insensitive term boundary check
+                if re.search(r"\b" + re.escape(node.name.lower()) + r"\b", unit_text_lower):
+                    matched_concept = node
+                    break
+
+            if matched_concept:
+                u.topic = matched_concept.topic
+                u.concept = matched_concept.name
+                matched_concept.content_unit_ids.append(u.id)
+            elif not u.topic and nodes:
+                # Default to first topic
+                first_node = next(iter(nodes.values()))
+                u.topic = first_node.topic
+                u.concept = first_node.name
+                first_node.content_unit_ids.append(u.id)
+
+        return units
+
+    def _link_figures(
+        self,
+        nodes: dict[str, ConceptNode],
+        figures: list[FigureUnit],
+    ) -> None:
+        """Associate figures with matching concepts."""
+        for fig in figures:
+            for node in nodes.values():
+                for c in fig.associated_concepts:
+                    if c.strip().lower() == node.name.lower():
+                        if fig.id not in node.figure_ids:
+                            node.figure_ids.append(fig.id)

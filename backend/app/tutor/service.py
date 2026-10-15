@@ -26,7 +26,9 @@ class TutorService:
         self.llm = llm
         self.kb = kb
         self.retriever = Retriever(kb.store, kb.embedder)
-        self.validator = CitationValidator(link_template="/courses/{course_id}/sources/{source_id}")
+        self.validator = CitationValidator(
+        link_template="/api/kb/courses/{course_id}/sources/{source_id}"
+)
         
         settings = get_settings()
         min_score = settings.grounding_min_score

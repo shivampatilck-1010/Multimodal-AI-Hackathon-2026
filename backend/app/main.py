@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.api.kb_routes import router as kb_router
 from app.api.tutor_routes import router as tutor_router
+from app.api.learner_routes import router as learner_router
 from app.tutor.knowledge_base import KnowledgeBase
 from app.tutor.vector_store import InMemoryVectorStore
 from app.tutor.providers import build_llm_provider, build_embedding_provider
@@ -99,6 +100,7 @@ app.add_middleware(
 
 app.include_router(kb_router, prefix="/api/kb", tags=["Knowledge Base"])
 app.include_router(tutor_router, prefix="/api/tutor", tags=["Tutor"])
+app.include_router(learner_router, prefix="/api/learner", tags=["Learner Model"])
 
 @app.get("/health")
 def health_check():

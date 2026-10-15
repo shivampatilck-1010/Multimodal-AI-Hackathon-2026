@@ -135,5 +135,133 @@
    "start_seconds": 720,
    "end_seconds": 855
   }
+ },
+ {
+  "id": "cs229_backprop_01",
+  "course_id": "cs229",
+  "text": "Backpropagation computes gradients of a loss function with respect to network parameters by applying the chain rule from the output layer back through the network. These gradients can then be used by an optimization algorithm such as gradient descent.",
+  "topic": "Backpropagation",
+  "subtopic": "Gradient Computation",
+  "concept": "Backpropagation",
+  "source": {
+   "file_name": "CS229_Backpropagation_Lecture.mp4",
+   "file_id": null,
+   "type": "video",
+   "timestamp_start": "00:11:00",
+   "timestamp_end": "00:14:00",
+   "start_seconds": 660,
+   "end_seconds": 840
+  },
+  "metadata": {
+   "demo_seed": true
+  }
+ },
+ {
+  "id": "cs229_linear_algebra_01",
+  "course_id": "cs229",
+  "text": "Vectors and matrices provide the mathematical representation used throughout machine learning. Matrix multiplication is used to transform feature vectors and represent linear transformations efficiently.",
+  "topic": "Linear Algebra",
+  "subtopic": "Vectors and Matrices",
+  "concept": "Vectors and Matrices",
+  "source": {
+   "file_name": "CS229_Linear_Algebra_Notes.pdf",
+   "file_id": null,
+   "type": "pdf",
+   "page": 5
+  },
+  "metadata": {
+   "demo_seed": true
+  }
+ },
+ {
+  "id": "cs229_neural_networks_01",
+  "course_id": "cs229",
+  "text": "A neural network consists of layers of computational units. Each unit computes a weighted combination of its inputs followed by a nonlinear activation function. Multiple layers allow the network to represent complex nonlinear functions.",
+  "topic": "Neural Networks",
+  "subtopic": "Network Architecture",
+  "concept": "Neural Network Architecture",
+  "source": {
+   "file_name": "CS229_Neural_Networks_Lecture.pptx",
+   "file_id": null,
+   "type": "slide",
+   "slide": 8
+  },
+  "metadata": {
+   "demo_seed": true
+  }
+ },
+ {
+  "id": "cs229_optimization_01",
+  "course_id": "cs229",
+  "text": "Optimization is the process of finding model parameters that minimize a loss function or maximize an objective function. In machine learning, optimization is used to learn parameters from training data.",
+  "topic": "Optimization",
+  "subtopic": "Optimization Fundamentals",
+  "concept": "Optimization",
+  "source": {
+   "file_name": "CS229_Optimization_Notes.pdf",
+   "file_id": null,
+   "type": "pdf",
+   "page": 1
+  },
+  "metadata": {
+   "demo_seed": true,
+   "source_description": "CS229 optimization course notes"
+  }
+ },
+ {
+  "id": "cs229_optimization_02",
+  "course_id": "cs229",
+  "text": "Gradient descent is an iterative optimization algorithm. Starting from an initial parameter vector, the algorithm computes the gradient of the objective function and updates the parameters in the opposite direction of the gradient. The learning rate controls the size of each update.",
+  "topic": "Optimization",
+  "subtopic": "Gradient Descent",
+  "concept": "Gradient Descent",
+  "source": {
+   "file_name": "CS229_Optimization_Lecture.pptx",
+   "file_id": null,
+   "type": "slide",
+   "slide": 12
+  },
+  "metadata": {
+   "demo_seed": true,
+   "source_description": "CS229 optimization lecture slides"
+  }
+ },
+ {
+  "id": "cs229_optimization_03",
+  "course_id": "cs229",
+  "text": "For a differentiable objective function J(theta), gradient descent updates the parameters according to theta := theta - alpha grad J(theta), where alpha is the learning rate. The update moves the parameters toward a local direction of decreasing objective value.",
+  "topic": "Optimization",
+  "subtopic": "Gradient Descent",
+  "concept": "Gradient Descent Update Rule",
+  "source": {
+   "file_name": "CS229_Optimization_Lecture.mp4",
+   "file_id": null,
+   "type": "video",
+   "timestamp_start": "00:18:00",
+   "timestamp_end": "00:20:30",
+   "start_seconds": 1080,
+   "end_seconds": 1230
+  },
+  "metadata": {
+   "demo_seed": true,
+   "source_description": "CS229 optimization lecture recording"
+  }
+ },
+ {
+  "id": "cs229_regression_01",
+  "course_id": "cs229",
+  "text": "Linear regression models the relationship between input variables and a continuous target using a linear function. The parameters are commonly estimated by minimizing the squared error between predictions and targets.",
+  "topic": "Regression",
+  "subtopic": "Linear Regression",
+  "concept": "Linear Regression",
+  "source": {
+   "file_name": "CS229_Regression_Notes.pdf",
+   "file_id": null,
+   "type": "pdf",
+   "page": 3
+  },
+  "metadata": {
+   "demo_seed": true
+  }
  }
 ]

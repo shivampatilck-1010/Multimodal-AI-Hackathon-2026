@@ -1,0 +1,163 @@
+{
+  "course_id": "cs229",
+  "nodes": {
+    "concept_backpropagation": {
+      "id": "concept_backpropagation",
+      "course_id": "cs229",
+      "name": "Backpropagation",
+      "topic": "Backpropagation",
+      "subtopic": "Gradient Computation",
+      "summary": "Backpropagation computes gradients of a loss function with respect to network parameters by applying the chain rule from the output layer back through the network. These gradients can then be used by an optimization algorithm such as gradient descent.",
+      "content_unit_ids": [
+        "cs229_backprop_01"
+      ],
+      "figure_ids": [],
+      "metadata": {
+        "extraction_method": "deterministic",
+        "source_unit_count": 1,
+        "source_subtopics": [
+          "Gradient Computation"
+        ]
+      }
+    },
+    "concept_linear_algebra": {
+      "id": "concept_linear_algebra",
+      "course_id": "cs229",
+      "name": "Linear Algebra",
+      "topic": "Linear Algebra",
+      "subtopic": "Vectors and Matrices",
+      "summary": "Vectors and matrices provide the mathematical representation used throughout machine learning. Matrix multiplication is used to transform feature vectors and represent linear transformations efficiently.",
+      "content_unit_ids": [
+        "cs229_linear_algebra_01"
+      ],
+      "figure_ids": [],
+      "metadata": {
+        "extraction_method": "deterministic",
+        "source_unit_count": 1,
+        "source_subtopics": [
+          "Vectors and Matrices"
+        ]
+      }
+    },
+    "concept_neural_networks": {
+      "id": "concept_neural_networks",
+      "course_id": "cs229",
+      "name": "Neural Networks",
+      "topic": "Neural Networks",
+      "subtopic": "Network Architecture",
+      "summary": "A neural network consists of layers of computational units. Each unit computes a weighted combination of its inputs followed by a nonlinear activation function. Multiple layers allow the network to represent complex nonlinear functions.",
+      "content_unit_ids": [
+        "cs229_neural_networks_01"
+      ],
+      "figure_ids": [],
+      "metadata": {
+        "extraction_method": "deterministic",
+        "source_unit_count": 1,
+        "source_subtopics": [
+          "Network Architecture"
+        ]
+      }
+    },
+    "concept_optimization": {
+      "id": "concept_optimization",
+      "course_id": "cs229",
+      "name": "Optimization",
+      "topic": "Optimization",
+      "subtopic": "Core Concepts",
+      "summary": "Optimization is the process of finding model parameters that minimize a loss function or maximize an objective function. In machine learning, optimization is used to learn parameters from training data. Gradient descent is an iterative optimization algorithm. Starting from an initial parameter vector, the algorithm computes the gradient of the objective function and updates the parameters in the opposite direction of the gradient. The learning rate controls the size of each update. For a differentiable objective function J(theta), gradient descent updates the parameters according to theta := theta - alpha grad J(theta), where alpha is the learning rate. The update moves the parameters...",
+      "content_unit_ids": [
+        "cs229_optimization_01",
+        "cs229_optimization_02",
+        "cs229_optimization_03"
+      ],
+      "figure_ids": [],
+      "metadata": {
+        "extraction_method": "deterministic",
+        "source_unit_count": 3,
+        "source_subtopics": [
+          "Gradient Descent",
+          "Optimization Fundamentals"
+        ]
+      }
+    },
+    "concept_regression": {
+      "id": "concept_regression",
+      "course_id": "cs229",
+      "name": "Regression",
+      "topic": "Regression",
+      "subtopic": "Linear Regression",
+      "summary": "Linear regression models the relationship between input variables and a continuous target using a linear function. The parameters are commonly estimated by minimizing the squared error between predictions and targets.",
+      "content_unit_ids": [
+        "cs229_regression_01"
+      ],
+      "figure_ids": [],
+      "metadata": {
+        "extraction_method": "deterministic",
+        "source_unit_count": 1,
+        "source_subtopics": [
+          "Linear Regression"
+        ]
+      }
+    }
+  },
+  "edges": [
+    {
+      "source_concept_id": "concept_backpropagation",
+      "target_concept_id": "concept_linear_algebra",
+      "relation_type": "prerequisite_of",
+      "rationale": "Foundational concepts in 'Backpropagation: Backpropagation' precede 'Linear Algebra: Linear Algebra'.",
+      "strength": 0.8
+    },
+    {
+      "source_concept_id": "concept_linear_algebra",
+      "target_concept_id": "concept_neural_networks",
+      "relation_type": "prerequisite_of",
+      "rationale": "Foundational concepts in 'Linear Algebra: Linear Algebra' precede 'Neural Networks: Neural Networks'.",
+      "strength": 0.8
+    },
+    {
+      "source_concept_id": "concept_neural_networks",
+      "target_concept_id": "concept_optimization",
+      "relation_type": "prerequisite_of",
+      "rationale": "Foundational concepts in 'Neural Networks: Neural Networks' precede 'Optimization: Optimization'.",
+      "strength": 0.8
+    },
+    {
+      "source_concept_id": "concept_optimization",
+      "target_concept_id": "concept_regression",
+      "relation_type": "prerequisite_of",
+      "rationale": "Foundational concepts in 'Optimization: Optimization' precede 'Regression: Regression'.",
+      "strength": 0.8
+    }
+  ],
+  "topics_hierarchy": {
+    "Backpropagation": {
+      "Gradient Computation": [
+        "concept_backpropagation"
+      ]
+    },
+    "Linear Algebra": {
+      "Vectors and Matrices": [
+        "concept_linear_algebra"
+      ]
+    },
+    "Neural Networks": {
+      "Network Architecture": [
+        "concept_neural_networks"
+      ]
+    },
+    "Optimization": {
+      "Gradient Descent": [
+        "concept_optimization"
+      ],
+      "Optimization Fundamentals": [
+        "concept_optimization"
+      ]
+    },
+    "Regression": {
+      "Linear Regression": [
+        "concept_regression"
+      ]
+    }
+  }
+}
